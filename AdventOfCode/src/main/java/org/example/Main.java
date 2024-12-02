@@ -3,7 +3,7 @@ package org.example;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.example.hello2.readFileTo2DArray;
+import static org.example.hello2.*;
 
 
 public class Main {
@@ -41,33 +41,15 @@ public class Main {
         int[][] resultArray = readFileTo2DArray(dateiPfad);
 
         int sum = 0;
-        for (int[] ints : resultArray) {
-            if (isStrictlyIncreasing(ints)) {
-                sum ++;
-            } else if (isStrictlyDecreasing(ints)) {
-                sum ++;
+        int safeReports = 0;
+        for (int[] row : resultArray) {
+            if (isStrictlyIncreasing(row) || isStrictlyDecreasing(row) || canBeSafeWithOneRemoval(row)) {
+                safeReports++;
             }
-            System.out.println(sum);
+            System.out.println(safeReports);
         }
         return sum;
     }
 
-    public static boolean isStrictlyIncreasing(int[] row) {
-        for (int i = 1; i < row.length; i++) {
-            if (row[i] <= row[i - 1] || (row[i] - row[i - 1]) > 3) {
-                return false; // Nicht stetig größer oder Differenz > 3
-            }
-        }
 
-        return true;
-    }
-
-    public static boolean isStrictlyDecreasing(int[] row) {
-        for (int i = 1; i < row.length; i++) {
-            if (row[i] >= row[i - 1] || (row[i - 1] - row[i]) > 3) {
-                return false; // Nicht stetig kleiner oder Differenz > 3
-            }
-        }
-        return true;
-    }
 }

@@ -51,4 +51,44 @@ public class hello2 {
             }
         }
     }
+    public static boolean isStrictlyIncreasing(int[] row) {
+        for (int i = 1; i < row.length; i++) {
+            if (row[i] <= row[i - 1] || (row[i] - row[i - 1]) > 3) {
+                return false; // Nicht stetig größer oder Differenz > 3
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean isStrictlyDecreasing(int[] row) {
+        for (int i = 1; i < row.length; i++) {
+            if (row[i] >= row[i - 1] || (row[i - 1] - row[i]) > 3) {
+                return false; // Nicht stetig kleiner oder Differenz > 3
+            }
+        }
+        return true;
+    }
+
+    public static boolean canBeSafeWithOneRemoval(int[] row) {
+        for (int i = 0; i < row.length; i++) {
+            if (isSafeAfterRemovingIndex(row, i)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isSafeAfterRemovingIndex(int[] row, int removeIndex) {
+        int[] modifiedRow = new int[row.length - 1];
+        int index = 0;
+
+        for (int i = 0; i < row.length; i++) {
+            if (i != removeIndex) {
+                modifiedRow[index++] = row[i];
+            }
+        }
+
+        return isStrictlyIncreasing(modifiedRow) || isStrictlyDecreasing(modifiedRow);
+    }
 }
