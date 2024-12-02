@@ -3,43 +3,52 @@ package org.example;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class hello2 {
+    public static void main(String[] args) {
+        String filePath = "src/main/java/org/example/data"; // Pfad zur Datei
+        try {
+            int[][] data = readFileTo2DArray(filePath);
 
-    public static int[] getIntArrayFromFile(String dateiPfad) {
-        ArrayList<Integer> list = new ArrayList<>(); // Temporäre Liste, um die Werte zu speichern
-        try (BufferedReader reader = new BufferedReader(new FileReader(dateiPfad))) {
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                // Splitte die Zeile bei Leerzeichen oder Tabulator
-                String[] teile = line.split("\\s+");  // \\s+ steht für alle Leerzeichen/Tabs
-
-                // Parsen der Werte und in die Liste hinzufügen
-                int rechts = Integer.parseInt(teile[1]);
-                list.add(rechts);  // Füge den Wert der Liste hinzu
+            // Ausgabe des Arrays
+            for (int[] row : data) {
+                for (int value : row) {
+                    System.out.print(value + " ");
+                }
+                System.out.println();
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        // Konvertiere die Liste in ein Array und gib es zurück
-        int[] result = new int[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            result[i] = list.get(i);
-        }
-        return result;
-    }
-
-    public static void main(String[] args) {
-        String dateiPfad = "src/main/java/org/example/data"; // Pfad zu deiner TXT-Datei
-        int[] resultArray = getIntArrayFromFile(dateiPfad);
-
-        // Ausgabe des resultierenden Arrays
-        for (int i : resultArray) {
-            System.out.print(i + " ");
+            System.err.println("Fehler beim Einlesen der Datei: " + e.getMessage());
         }
     }
 
+    public static int[][] readFileTo2DArray(String filePath) throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            // Zuerst die Anzahl der Zeilen bestimmen
+            int rows = 0;
+            while (br.readLine() != null) {
+                rows++;
+            }
+
+            // Datei erneut öffnen, um Daten einzulesen
+            br.close();
+            try (BufferedReader br2 = new BufferedReader(new FileReader(filePath))) {
+                int[][] array = new int[rows][];
+                String line;
+                int rowIndex = 0;
+
+                while ((line = br2.readLine()) != null) {
+                    // Werte in der Zeile parsen (durch Leerzeichen getrennt)
+                    String[] parts = line.trim().split("\\s+"); // Trennung durch Leerzeichen
+                    int[] row = new int[parts.length];
+                    for (int i = 0; i < parts.length; i++) {
+                        row[i] = Integer.parseInt(parts[i]); // String zu Integer konvertieren
+                    }
+                    array[rowIndex] = row;
+                    rowIndex++;
+                }
+                return array;
+            }
+        }
+    }
 }

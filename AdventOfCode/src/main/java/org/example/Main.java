@@ -1,14 +1,13 @@
 package org.example;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
+
+import static org.example.hello2.readFileTo2DArray;
 
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         //dayOne();
         dayTwo();
@@ -36,10 +35,39 @@ public class Main {
         }
     }
 
-    private static void dayTwo() {
+    private static int dayTwo() throws IOException {
 
+        String dateiPfad = "src/main/java/org/example/data"; // Pfad zu deiner TXT-Datei
+        int[][] resultArray = readFileTo2DArray(dateiPfad);
 
+        int sum = 0;
+        for (int[] ints : resultArray) {
+            if (isStrictlyIncreasing(ints)) {
+                sum ++;
+            } else if (isStrictlyDecreasing(ints)) {
+                sum ++;
+            }
+            System.out.println(sum);
+        }
+        return sum;
+    }
 
+    public static boolean isStrictlyIncreasing(int[] row) {
+        for (int i = 1; i < row.length; i++) {
+            if (row[i] <= row[i - 1] || (row[i] - row[i - 1]) > 3) {
+                return false; // Nicht stetig größer oder Differenz > 3
+            }
+        }
 
+        return true;
+    }
+
+    public static boolean isStrictlyDecreasing(int[] row) {
+        for (int i = 1; i < row.length; i++) {
+            if (row[i] >= row[i - 1] || (row[i - 1] - row[i]) > 3) {
+                return false; // Nicht stetig kleiner oder Differenz > 3
+            }
+        }
+        return true;
     }
 }
