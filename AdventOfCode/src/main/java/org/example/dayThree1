@@ -1,0 +1,43 @@
+let raw1 = require('fs').readFileSync('/Users/maxmoser/Progamming/AdventOfCode/src/main/java/org/example/Dateien/Day 3','utf8').replace(/\r?\n/g,';')
+
+const allSpecialSymbols = raw1.match(/[^0-9.;]/g)
+const wlen = raw1.indexOf(';')+1
+
+const p1 = ()=> {
+    let raw = raw1
+    const numer = raw.match(/\d+/g).map(x=>+x)
+    let total = 0
+    for (let no of numer) {
+        let a = raw.indexOf(no)
+        let b = a + no.toString().length
+        const ada = raw.substring(a-1-wlen, b+1-wlen) + raw.substring(a-1, b+1) + raw.substring(a-1+wlen, b+1+wlen)
+        if (allSpecialSymbols.some(x=>ada.includes(x))) total += no
+        // replace no with dots
+        raw = raw.substring(0,a) + '.'.repeat(no.toString().length) + raw.substring(b)
+    }
+    return total
+}
+
+const p2 = ()=> {
+    let raw = raw1
+    const numer = raw.match(/\d+/g).map(x=>+x)
+    let allstar = {}
+    for (let no of numer) {
+        let a = raw.indexOf(no)
+        let b = a + no.toString().length
+        
+        for (let i=a-1-wlen; i < b+1-wlen; i++)
+        if (raw[i] === '*') allstar[i]? allstar[i].push(no) : allstar[i] = [no]
+        for (let i=a-1; i < b+1; i++)
+        if (raw[i] === '*') allstar[i]? allstar[i].push(no) : allstar[i] = [no]
+        for (let i=a-1+wlen; i < b+1+wlen; i++)
+        if (raw[i] === '*') allstar[i]? allstar[i].push(no) : allstar[i] = [no]
+        
+        raw = raw.substring(0,a) + '.'.repeat(no.toString().length) + raw.substring(b)
+    }
+    // find the keys which have exact two elements and sum up their multiplication (of exact two elements)
+    return Object.values(allstar).filter(x=>x.length === 2).map(x=>x[0]*x[1]).reduce((a,b)=>a+b)
+}
+
+console.log("p1:",p1(),'(4361/540025)')
+console.log("p2:",p2(),'(467835/84584891)')
