@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class hello2 {
+public class Tag2 {
     public static void main(String[] args) {
         String filePath = "src/main/java/org/example/data"; // Pfad zur Datei
         try {

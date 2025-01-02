@@ -3,7 +3,7 @@ package org.example;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class extraClasses {
+public class Tag3 {
     public static int sumValidMulInstructions(String memory) {
         // Regular expression to match valid mul(X,Y) instructions in a continuous string
         String regexDo = "do\\(\\)";

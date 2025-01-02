@@ -2,12 +2,9 @@ package org.example;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static org.example.extraClasses.sumValidMulInstructions;
-import static org.example.hello2.*;
+import static org.example.Tag3.sumValidMulInstructions;
+import static org.example.Tag2.*;
 
 
 public class Main {
@@ -15,7 +12,8 @@ public class Main {
 
         //dayOne();
         //dayTwo();
-        dayThree();
+        //dayThree();
+        dayFour();
 
     }
 
@@ -70,6 +68,15 @@ public class Main {
         // Find the sum of valid mul(X,Y) instructions
         int totalSum = sumValidMulInstructions(Datei);
         System.out.println("The sum of valid mul instructions is: " + totalSum);
+    }
+
+
+    private static void dayFour() throws IOException {
+
+        Tag4 Datei = new Tag4();
+
+
+
     }
 
 
